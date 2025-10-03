@@ -4,40 +4,102 @@
     <meta charset="UTF-8">
     <title>تطبيق البحث</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; direction: rtl; text-align: right; }
-        .search-box { width: 300px; padding: 8px; font-size: 16px; }
-        .autocomplete-suggestions { border: 1px solid #ccc; max-height: 200px; overflow-y: auto; background: #fff; position: absolute; width: 300px; }
-        .suggestion { padding: 8px; cursor: pointer; }
-        .suggestion:hover { background-color: #f0f0f0; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            direction: rtl;
+            text-align: center;
+        }
+        .container {
+            text-align: center;
+        }
+        .search-box {
+            width: 400px;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            outline: none;
+        }
+        .autocomplete-suggestions {
+            margin-top: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: #fff;
+            width: 400px;
+            text-align: right;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        .suggestion {
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .suggestion:hover {
+            background: #f0f0f0;
+        }
+        .card {
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            width: 400px;
+            text-align: right;
+        }
+        .welcome {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
-    <h2>🔍 البحث عن اسم</h2>
-    <input type="text" id="search" class="search-box" placeholder="اكتب الاسم...">
-    <div id="suggestions" class="autocomplete-suggestions"></div>
+    <div class="container">
+        <div class="welcome">اكتب اسمًا للبحث…</div>
+        <input type="text" id="searchInput" class="search-box" placeholder="ابحث هنا..." onkeyup="searchData()">
+        <div id="suggestions" class="autocomplete-suggestions"></div>
+        <div id="resultCard" class="card" style="display:none;"></div>
+    </div>
 
     <script src="data.js"></script>
     <script>
-        const searchInput = document.getElementById("search");
-        const suggestionsBox = document.getElementById("suggestions");
+        function searchData() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let suggestions = document.getElementById('suggestions');
+            let resultCard = document.getElementById('resultCard');
+            suggestions.innerHTML = "";
+            resultCard.style.display = "none";
 
-        searchInput.addEventListener("input", function() {
-            const query = this.value.toLowerCase();
-            suggestionsBox.innerHTML = "";
-            if (query.length === 0) return;
+            if (input.length === 0) return;
 
-            const matches = data.filter(item => item["الاسم"].toLowerCase().startsWith(query));
+            let filtered = data.filter(item => item.name.toLowerCase().includes(input));
 
-            matches.forEach(match => {
-                const div = document.createElement("div");
-                div.textContent = match["الاسم"];
+            filtered.forEach(item => {
+                let div = document.createElement("div");
                 div.classList.add("suggestion");
-                div.onclick = () => {
-                    alert("الاسم: " + match["الاسم"] + "\nالرقم: " + match["الرقم"]);
+                div.innerText = item.name;
+                div.onclick = function() {
+                    showResult(item);
                 };
-                suggestionsBox.appendChild(div);
+                suggestions.appendChild(div);
             });
-        });
+        }
+
+        function showResult(item) {
+            let resultCard = document.getElementById('resultCard');
+            resultCard.innerHTML = "<h3>" + item.name + "</h3><p>الرقم: " + item.id + "</p>";
+            resultCard.style.display = "block";
+            document.getElementById('suggestions').innerHTML = "";
+        }
     </script>
 </body>
 </html>
