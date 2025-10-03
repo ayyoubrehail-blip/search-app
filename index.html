@@ -6,7 +6,7 @@
     <title>تطبيق البحث</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -25,10 +25,11 @@
 
         /* القسم الرسمي */
         .official-header {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: bold;
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 20px;
+            color: #064420; /* أخضر داكن مثل الوثائق الرسمية */
         }
 
         /* الهيدر وتثبيته */
@@ -36,36 +37,38 @@
             position: sticky;
             top: 0;
             background: #f0f4f8;
-            padding: 10px 0;
+            padding: 12px 0;
             z-index: 10;
         }
         .header h1 {
             color: #2c3e50;
             margin: 0;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: bold;
         }
         .header p {
             color: #7f8c8d;
             margin: 5px 0 0;
+            font-size: 16px;
         }
 
         .search-box {
             width: 100%;
-            padding: 15px;
-            font-size: 18px;
+            padding: 16px;
+            font-size: 20px;
             border-radius: 12px;
             border: 2px solid #ddd;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             outline: none;
             transition: border-color 0.3s;
             box-sizing: border-box;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         .search-box:focus {
             border-color: #3498db;
         }
 
-        /* القائمة المنسدلة مع إمكانية التمرير */
+        /* القائمة المنسدلة */
         .autocomplete-suggestions {
             margin-top: 10px;
             border-radius: 12px;
@@ -73,18 +76,19 @@
             background: #fff;
             width: 100%;
             text-align: right;
-            max-height: 200px;
+            max-height: 400px;
             overflow-y: auto;
             display: none;
             position: relative;
             z-index: 20;
-            -webkit-overflow-scrolling: touch; /* لتحسين التمرير على الموبايل */
+            -webkit-overflow-scrolling: touch;
         }
         .suggestion {
-            padding: 12px 15px;
+            padding: 15px 18px;
             cursor: pointer;
             transition: background 0.2s;
             border-bottom: 1px solid #f0f0f0;
+            font-size: 18px;
         }
         .suggestion:last-child {
             border-bottom: none;
@@ -96,32 +100,38 @@
         .card {
             margin-top: 20px;
             background: #fff;
-            padding: 20px;
+            padding: 22px;
             border-radius: 15px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.2);
             width: 100%;
             text-align: right;
             display: none;
             animation: fadeIn 0.3s;
+            font-size: 18px;
         }
         .card h3 {
             margin-top: 0;
             color: #2c3e50;
+            font-size: 20px;
         }
         .card p {
             margin: 10px 0;
-            font-size: 16px;
+            font-size: 18px;
         }
         .no-results {
             color: #e74c3c;
             margin-top: 15px;
             display: none;
+            font-size: 16px;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
+
+    <!-- خط جميل من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -130,7 +140,7 @@
             الجمهورية الجزائرية الديمقراطية الشعبية<br>
             ولاية قسنطينة<br>
             الأمانة العامة<br>
-            إنتخابات لجنة الطعون
+            انتخابات لجنة الطعون
         </div>
 
         <!-- الهيدر المثبت -->
@@ -162,7 +172,6 @@
                 return;
             }
             
-            // البحث
             let filtered = data.filter(item => 
                 item["الاسم"].toLowerCase().includes(input.toLowerCase())
             );
@@ -199,14 +208,12 @@
             document.getElementById('searchInput').value = item["الاسم"];
         }
         
-        // إخفاء الاقتراحات عند النقر خارجها
         document.addEventListener('click', function(e) {
             if (!e.target.matches('#searchInput') && !e.target.matches('.suggestion')) {
                 document.getElementById('suggestions').style.display = 'none';
             }
         });
         
-        // تهيئة البحث عند تحميل الصفحة
         document.getElementById('searchInput').addEventListener('input', searchData);
     </script>
 </body>
