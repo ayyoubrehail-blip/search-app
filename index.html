@@ -14,13 +14,20 @@
             direction: rtl;
             text-align: center;
             color: #333;
+
+            /* التمركز لملء الشاشة */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
             text-align: center;
             width: 90%;
             max-width: 500px;
-            margin: auto;
-            padding-top: 20px;
+            height: 100vh; /* يملأ كامل الشاشة */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* تمركز عمودي */
         }
 
         /* القسم الرسمي */
@@ -34,11 +41,8 @@
 
         /* الهيدر وتثبيته */
         .header {
-            position: sticky;
-            top: 0;
             background: #f0f4f8;
             padding: 12px 0;
-            z-index: 10;
         }
         .header h1 {
             color: #2c3e50;
