@@ -10,9 +10,6 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
             direction: rtl;
             text-align: center;
@@ -22,17 +19,36 @@
             text-align: center;
             width: 90%;
             max-width: 500px;
+            margin: auto;
+            padding-top: 20px;
         }
+
+        /* القسم الرسمي */
+        .official-header {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* الهيدر وتثبيته */
         .header {
-            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            background: #f0f4f8;
+            padding: 10px 0;
+            z-index: 10;
         }
         .header h1 {
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 20px;
         }
         .header p {
             color: #7f8c8d;
+            margin: 5px 0 0;
         }
+
         .search-box {
             width: 100%;
             padding: 15px;
@@ -43,10 +59,13 @@
             outline: none;
             transition: border-color 0.3s;
             box-sizing: border-box;
+            margin-top: 10px;
         }
         .search-box:focus {
             border-color: #3498db;
         }
+
+        /* القائمة المنسدلة مع إمكانية التمرير */
         .autocomplete-suggestions {
             margin-top: 10px;
             border-radius: 12px;
@@ -54,9 +73,12 @@
             background: #fff;
             width: 100%;
             text-align: right;
-            overflow-y: auto;
             max-height: 200px;
+            overflow-y: auto;
             display: none;
+            position: relative;
+            z-index: 20;
+            -webkit-overflow-scrolling: touch; /* لتحسين التمرير على الموبايل */
         }
         .suggestion {
             padding: 12px 15px;
@@ -70,6 +92,7 @@
         .suggestion:hover {
             background: #f8f9fa;
         }
+
         .card {
             margin-top: 20px;
             background: #fff;
@@ -102,11 +125,21 @@
 </head>
 <body>
     <div class="container">
+        <!-- العنوان الرسمي -->
+        <div class="official-header">
+            الجمهورية الجزائرية الديمقراطية الشعبية<br>
+            ولاية قسنطينة<br>
+            الأمانة العامة<br>
+            إنتخابات لجنة الطعون
+        </div>
+
+        <!-- الهيدر المثبت -->
         <div class="header">
             <h1>تطبيق البحث</h1>
             <p>ابحث عن اسم في القائمة أدناه</p>
+            <input type="text" id="searchInput" class="search-box" placeholder="اكتب اسم للبحث...">
         </div>
-        <input type="text" id="searchInput" class="search-box" placeholder="اكتب اسم للبحث...">
+
         <div id="suggestions" class="autocomplete-suggestions"></div>
         <div id="noResults" class="no-results">لم يتم العثور على نتائج</div>
         <div id="resultCard" class="card"></div>
@@ -129,7 +162,7 @@
                 return;
             }
             
-            // البحث مع تجاهل التشكيل والحروف المتشابهة
+            // البحث
             let filtered = data.filter(item => 
                 item["الاسم"].toLowerCase().includes(input.toLowerCase())
             );
